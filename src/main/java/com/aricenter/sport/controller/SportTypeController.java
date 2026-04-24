@@ -2,6 +2,7 @@ package com.aricenter.sport.controller;
 
 import com.aricenter.sport.entity.SportType;
 import com.aricenter.sport.service.SportTypeService;
+import com.aricenter.sport.dto.response.SportTypeServiceResponce;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,13 +18,19 @@ public class SportTypeController {
     }
 
     @PostMapping("create")
-    public SportType save(@RequestBody SportType sportType){
-       return sportTypeService.save(sportType) ;
-   }
+    public ResponseEntity<SportTypeServiceResponce> save(@RequestBody SportType sportType){
+       SportType saved =  sportTypeService.save(sportType);
 
-   @PostMapping("create/multiSports")
-    public List<SportType> saveAll(@RequestBody List<SportType> sportTypeList){
-        return  sportTypeService.saveAll(sportTypeList);
+       return ResponseEntity.status(201).body(new SportTypeServiceResponce("Sport is created",List.of(saved)));
+    }
+
+
+   @PostMapping("create/multi-sports")
+   public ResponseEntity<SportTypeServiceResponce> saveAll(@RequestBody List<SportType> sportTypeList) {
+
+       List<SportType> saved = sportTypeService.saveAll(sportTypeList);
+
+       return ResponseEntity.status(201).body(new SportTypeServiceResponce("Sport types created successfully", saved));
    }
 
   @DeleteMapping("/{name}")
