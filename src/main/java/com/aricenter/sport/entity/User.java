@@ -1,6 +1,7 @@
 package com.aricenter.sport.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 
 @Entity
 @Table(name = "users")
@@ -10,6 +11,7 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
+    @Email
     private String email;
 
     @Column(nullable = false)
