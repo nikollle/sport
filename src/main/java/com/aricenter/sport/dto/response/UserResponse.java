@@ -1,4 +1,4 @@
-package com.aricenter.sport.dto;
+package com.aricenter.sport.dto.response;
 
 import com.aricenter.sport.entity.User;
 

@@ -16,7 +16,7 @@ public class UserService {
     }
 
     //creating a user
-    public User save(User user){
+    public User saveUser(User user){
         if(user == null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Missing mandatory filed");
         }
@@ -51,7 +51,6 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Missing Role filed");
         }
 
-        String firstName = user.getFirstName().trim();
 
         if(userRepository.existsByEmail(email)){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User already exist filed");
@@ -64,7 +63,7 @@ public class UserService {
 
     //delete user
     @Transactional
-    public void deleteByEmailAndName(String email, String firstName){
+    public void deleteByEmailAndName(String firstName, String email){
         if(email == null || email.isBlank()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Missing email filed");
         }
@@ -79,10 +78,10 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid email format");
         }
 
-        if(!userRepository.existsByEmailAndFirstName(trimmedEmail,firstName.trim())){
+        if(!userRepository.existsByEmailAndFirstName(firstName.trim(),trimmedEmail)){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Email not found");
         }
 
-        userRepository.deleteByEmailAndFirstName(trimmedEmail , firstName.trim());
+        userRepository.deleteByEmailAndFirstName(firstName.trim(),trimmedEmail);
     }
 }

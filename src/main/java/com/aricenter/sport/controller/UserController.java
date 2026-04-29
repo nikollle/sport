@@ -1,6 +1,6 @@
 package com.aricenter.sport.controller;
 
-import com.aricenter.sport.dto.UserResponse;
+import com.aricenter.sport.dto.response.UserResponse;
 import com.aricenter.sport.entity.User;
 import com.aricenter.sport.service.UserService;
 import jakarta.validation.Valid;
@@ -22,14 +22,14 @@ public class UserController {
 
   @PostMapping("create")
     public ResponseEntity<UserResponse> save(@Valid @RequestBody User user){
-      User saved = userService.save(user);
+      User saved = userService.saveUser(user);
       return ResponseEntity.status(HttpStatus.CREATED).body(new UserResponse("User is created.", List.of(saved)));
   }
 
-  @DeleteMapping("/{email}/{firstName}")
-  public ResponseEntity<Void> delete(@PathVariable String email,@PathVariable String firstName) {
+  @DeleteMapping("/{firstName}/{email}")
+  public ResponseEntity<Void> delete(@PathVariable String firstName ,@PathVariable String email) {
 
-    userService.deleteByEmailAndName(email, firstName);
+    userService.deleteByEmailAndName(firstName,email);
 
     return ResponseEntity.noContent().build();
   }
